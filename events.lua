@@ -318,7 +318,7 @@ local function decorateItemButton(button, index, type, texture, name, numItems, 
 			autoEquip(itemLink);
 			autoEquipAllReward();
 		end
-		
+
 		if IsModifiedClick("DRESSUP") and DressUpFrame:IsVisible() then
 			if Storyline_Data.config.hideOriginalFrames then
 				Storyline_API.hideOriginalFrames();
@@ -397,8 +397,9 @@ eventHandlers["GOSSIP_SHOW"] = function()
 
 		previous = Storyline_NPCFrameChatOption1;
 		if GetNumGossipAvailableQuests() == 1 then
-			local title, lvl, isTrivial, frequency, isRepeatable, isLegendary = GetGossipAvailableQuests();
-			local icon = "|T" .. getQuestIcon(frequency, isRepeatable, isLegendary) .. ":20:20|t ";
+			--CHANGE:centurijon:frequency -> isDaily
+			local title, lvl, isTrivial, isDaily, isRepeatable = GetGossipAvailableQuests();
+			local icon = "|T" .. getQuestIcon(isDaily, isRepeatable) .. ":20:20|t ";
 			Storyline_NPCFrameChatOption1:SetText(gossipColor .. icon .. title .. getQuestTriviality(isTrivial));
 			Storyline_NPCFrameChatOption1:SetScript("OnClick", selectFirstAvailable);
 		else
@@ -421,8 +422,10 @@ eventHandlers["GOSSIP_SHOW"] = function()
 		end
 		previous = Storyline_NPCFrameChatOption2;
 		if GetNumGossipActiveQuests() == 1 then
-			local title, lvl, isTrivial, isComplete, isRepeatable = GetGossipActiveQuests();
-			Storyline_NPCFrameChatOption2:SetText(gossipColor .. "|T" .. getQuestActiveIcon(isComplete, isRepeatable) .. ":20:20|t " .. title .. getQuestTriviality(isTrivial));
+			--CHANGE:centurijon:isLegendary not returned in 3.4
+			--??:centurijon:I'm not sure about this, I can't find a reference for GetGossipActiveQuests returning isRepeatable
+			local title, lvl, isTrivial, isComplete = GetGossipActiveQuests();
+			Storyline_NPCFrameChatOption2:SetText(gossipColor .. "|T" .. getQuestActiveIcon(isComplete, false) .. ":20:20|t " .. title .. getQuestTriviality(isTrivial));
 			Storyline_NPCFrameChatOption2:SetScript("OnClick", selectFirstActive);
 		else
 			Storyline_NPCFrameChatOption2:SetText(gossipColor .. "|TInterface\\GossipFrame\\ActiveQuestIcon:20:20|t " .. loc("SL_WELL"));
@@ -474,8 +477,10 @@ eventHandlers["QUEST_GREETING"] = function()
 		previous = Storyline_NPCFrameChatOption1;
 		if numActiveQuests == 1 then
 			local title, isComplete = GetActiveTitle(1);
-			local isTrivial, frequency, isRepeatable, isLegendary = GetAvailableQuestInfo(1);
-			local icon = "|T" .. getQuestIcon(frequency, isRepeatable, isLegendary) .. ":20:20|t ";
+			--CHANGE:centurijon:isLegendary not returned in 3.4
+			--CHANGE:centurijon:frequency -> isDaily
+			local isTrivial, isDaily, isRepeatable = GetAvailableQuestInfo(1);
+			local icon = "|T" .. getQuestIcon(isDaily, isRepeatable) .. ":20:20|t ";
 			Storyline_NPCFrameChatOption1:SetText(gossipColor .. "|T" .. getQuestActiveIcon(isComplete, isRepeatable) .. ":20:20|t " .. title .. getQuestTriviality(isTrivial));
 			Storyline_NPCFrameChatOption1:SetScript("OnClick", selectFirstGreetingActive);
 		else
@@ -498,8 +503,10 @@ eventHandlers["QUEST_GREETING"] = function()
 		previous = Storyline_NPCFrameChatOption2;
 		if numAvailableQuests == 1 then
 			local title, isComplete = GetAvailableTitle(1);
-			local isTrivial, frequency, isRepeatable, isLegendary = GetAvailableQuestInfo(numActiveQuests + 1);
-			local icon = "|T" .. getQuestIcon(frequency, isRepeatable, isLegendary) .. ":20:20|t ";
+			--CHANGE:centurijon:isLegendary not returned in 3.4
+			--CHANGE:centurijon:frequency -> isDaily
+			local isTrivial, isDaily, isRepeatable = GetAvailableQuestInfo(numActiveQuests + 1);
+			local icon = "|T" .. getQuestIcon(isDaily, isRepeatable) .. ":20:20|t ";
 			Storyline_NPCFrameChatOption2:SetText(gossipColor .. icon .. title .. getQuestTriviality(isTrivial));
 			Storyline_NPCFrameChatOption2:SetScript("OnClick", selectFirstGreetingAvailable);
 		else
@@ -841,7 +848,7 @@ eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 		Storyline_NPCFrameRewards.Content.RewardTextSpell:SetPoint("TOP", previousForChoice, "BOTTOM", 0, -5);
 		contentHeight = contentHeight + 18;
 		previousForChoice = Storyline_NPCFrameRewards.Content.RewardTextSpell;
-		
+
 		--CHANGES:Lanrutcon:No need to have this condition. Garrison was implemented in 6.0
 		--[[
 		if garrFollowerID then

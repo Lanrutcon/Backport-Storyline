@@ -65,10 +65,10 @@ local after, tostring = C_Timer.After, tostring;
 -- UTILS
 --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-local function getQuestIcon(frequency, isRepeatable, isLegendary)
-	if (isLegendary) then
-		return "Interface\\GossipFrame\\AvailableLegendaryQuestIcon";
-	elseif (frequency == LE_QUEST_FREQUENCY_DAILY or frequency == LE_QUEST_FREQUENCY_WEEKLY) then
+local function getQuestIcon(isDaily, isRepeatable)
+    --CHANGE:centurijon:isLegendary not available in 3.4
+    --CHANGE:centurijon:frequency -> isDaily
+	if (isDaily) then
 		return "Interface\\GossipFrame\\DailyQuestIcon";
 	elseif (isRepeatable) then
 		return "Interface\\GossipFrame\\DailyActiveQuestIcon";

@@ -185,9 +185,8 @@
 			</Layer>
 		</Layers>
 		<Scripts>
-			<!--CHANGES:Lanrutcon-->
 			<OnEnter>
-				--print("XML UI: Storyline Multichoice Button > Fontstring: Text")
+				print("XML UI: Storyline Multichoice Button > Fontstring: Text")
 				self.Text:SetTextColor(0.95, 0.95, 0.95);
 			</OnEnter>
 			<OnLeave>
@@ -525,7 +524,7 @@
 
 				</Frames>
 			</Frame>
-			
+
 			<!-- CHANGES:Lanrutcon:Increased frameLevel to 5 -->
 			<Frame name="Storyline_NPCFrameChat" frameLevel="5">
 				<Backdrop bgFile="Interface\AddOns\Storyline\Artwork\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\AddOns\Storyline\Artwork\GLUES\COMMON\TextPanel-Border" tile="false">
@@ -561,7 +560,7 @@
 								<Anchor point="TOPLEFT" x="50" y="-12"/>
 								<Anchor point="TOPRIGHT" x="-50" y="-12"/>
 							</Anchors>
-							<Color r="1" g="0.75" b="0"/>
+							<Color r="1" g="0.75" b="0.0"/>
 						</FontString>
 						<FontString name="Storyline_NPCFrameChatText" text="[NAME]" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
 							<Anchors>

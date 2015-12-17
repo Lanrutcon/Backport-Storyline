@@ -105,10 +105,11 @@ function Storyline_API.selectMultipleAvailable(button)
 	local data = { GetGossipAvailableQuests() };
 	local height = 40;
 	for i = 1, GetNumGossipAvailableQuests() do
-		local title, lvl, isTrivial, frequency, isRepeatable, isLegendary =
-		data[(i * 6) - 5], data[(i * 6) - 4], data[(i * 6) - 3], data[(i * 6) - 2], data[(i * 6) - 1], data[(i * 6)];
+		--CHANGE:centurijon:isLegendary not returned in 3.4
+		--CHANGE:centurijon:frequency -> isDaily
+		local title, lvl, isTrivial, isDaily, isRepeatable = data[(i * 5) - 4], data[(i * 5) - 3], data[(i * 5) - 2], data[(i * 5) - 1], data[(i * 5)];
 		previous = getSelectionFontString(previous);
-		previous.Text:SetText("|T" .. getQuestIcon(frequency, isRepeatable, isLegendary) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
+		previous.Text:SetText("|T" .. getQuestIcon(isDaily, isRepeatable) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
 		previous:SetScript("OnClick", function(self)
 			SelectGossipAvailableQuest(i);
 		end);
@@ -131,6 +132,7 @@ function Storyline_API.selectMultipleActive(button)
 	local data = { GetGossipActiveQuests() };
 	local height = 40;
 	for i = 1, GetNumGossipActiveQuests() do
+		--CHANGE:centurijon:isLegendary not returned in 3.4
 		local title, lvl, isTrivial, isComplete, isRepeatable = data[(i * 5) - 4], data[(i * 5) - 3], data[(i * 5) - 2], data[(i * 5) - 1], data[(i * 5)];
 		previous = getSelectionFontString(previous);
 		previous.Text:SetText("|T" .. getQuestActiveIcon(isComplete) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
@@ -152,7 +154,9 @@ function Storyline_API.selectMultipleActiveGreetings(button)
 	local height = 40;
 	for i = 1, GetNumActiveQuests() do
 		local title, isComplete = GetActiveTitle(i);
-		local isTrivial, frequency, isRepeatable, isLegendary = GetAvailableQuestInfo(i);
+		--CHANGE:centurijon:isLegendary not returned in 3.4
+		--CHANGE:centurijon:frequency -> isDaily
+		local isTrivial, isDaily, isRepeatable = GetAvailableQuestInfo(i);
 		previous = getSelectionFontString(previous);
 		previous.Text:SetText("|T" .. getQuestActiveIcon(isComplete) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
 		previous:SetScript("OnClick", function(self)
@@ -176,9 +180,11 @@ function Storyline_API.selectMultipleAvailableGreetings(button)
 	local height = 40;
 	for i = 1, numAvailableQuests do
 		local title, isComplete = GetAvailableTitle(i);
-		local isTrivial, frequency, isRepeatable, isLegendary = GetAvailableQuestInfo(numActiveQuests + i);
+		--CHANGE:centurijon:isLegendary not returned in 3.4
+		--CHANGE:centurijon:frequency -> isDaily
+		local isTrivial, isDaily, isRepeatable = GetAvailableQuestInfo(numActiveQuests + i);
 		previous = getSelectionFontString(previous);
-		previous.Text:SetText("|T" .. getQuestIcon(frequency, isRepeatable, isLegendary) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
+		previous.Text:SetText("|T" .. getQuestIcon(isDaily, isRepeatable) .. ":20:20|t" .. title .. getQuestTriviality(isTrivial));
 		previous:SetScript("OnClick", function(self)
 			SelectAvailableQuest(i);
 		end);
