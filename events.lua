@@ -61,7 +61,7 @@ local GetGossipText, GetRewardText, GetQuestText = GetGossipText, GetRewardText,
 local GetItemInfo, GetContainerNumSlots, GetContainerItemLink, EquipItemByName = GetItemInfo, GetContainerNumSlots, GetContainerItemLink, EquipItemByName;
 local InCombatLockdown, GetInventorySlotInfo, GetInventoryItemLink = InCombatLockdown, GetInventorySlotInfo, GetInventoryItemLink;
 local GetQuestCurrencyInfo, GetMaxRewardCurrencies, GetRewardTitle = GetQuestCurrencyInfo, GetMaxRewardCurrencies, GetRewardTitle;
-local GarrisonFollowerPortrait_Set, GetFollowerInfo = GarrisonFollowerPortrait_Set, C_Garrison.GetFollowerInfo;
+--local GarrisonFollowerPortrait_Set, GetFollowerInfo = GarrisonFollowerPortrait_Set, C_Garrison.GetFollowerInfo;
 local GetQuestMoneyToGet, GetMoney, GetNumQuestCurrencies = GetQuestMoneyToGet, GetMoney, GetNumQuestCurrencies;
 local GetSuggestedGroupNum = GetSuggestedGroupNum;
 
@@ -228,7 +228,7 @@ local function acceptQuest()
 		QuestFrame.dialog = StaticPopup_Show("CONFIRM_ACCEPT_PVP_QUEST");
 	else
 		if QuestFrame.autoQuest then
-			AcknowledgeAutoAcceptQuest();
+			--AcknowledgeAutoAcceptQuest();		--MoP function that notices user that is a auto-aceept quest
 		else
 			AcceptQuest();
 		end
@@ -265,6 +265,7 @@ local function resetGrid()
 	gridCount = 0;
 end
 
+--CHANGES:Lanrutcon:Added missing indexes, also created textures icons and fontstrings.
 local itemButtons = {};
 local function getQuestButton(parentFrame)
 	local available;
@@ -279,6 +280,15 @@ local function getQuestButton(parentFrame)
 		available:SetScript("OnLeave", function(self)
 			GameTooltip:Hide();
 		end);
+		available.Icon = available:CreateTexture();
+		available.Icon:SetPoint("TOPLEFT", available, "TOPLEFT");
+		available.Icon:SetSize(38, 38);
+		available.Name = available:CreateFontString();
+		available.Name:SetFont("Fonts\\FRIZQT__.TTF", 12);
+		available.Name:SetSize(100, 36);
+		available.Name:SetPoint("TOPLEFT", available, "TOPLEFT", 43, 0);
+		available.Name:SetJustifyH("LEFT");
+		available.Name:SetJustifyV("MIDDLE");
 		tinsert(itemButtons, available);
 	end
 	available:SetParent(parentFrame);
@@ -292,7 +302,7 @@ local function decorateItemButton(button, index, type, texture, name, numItems, 
 	button.type = type;
 	button.Icon:SetTexture(texture);
 	button.Name:SetText(name);
-	button.Count:SetText(numItems > 1 and numItems or "");
+	button.Count = (numItems > 1 and numItems or "");
 	if not isUsable then
 		button.Icon:SetVertexColor(1, 0, 0);
 	end
@@ -336,7 +346,8 @@ end
 local function decorateStandardButton(button, texture, name, tt, ttsub, isNotUsable)
 	button.Icon:SetTexture(texture);
 	button.Name:SetText(name);
-	button.Count:SetText("");
+	--button:SetText(name)
+	--button.Count:SetText("");
 	if isNotUsable then
 		button.Icon:SetVertexColor(1, 0, 0);
 	end
@@ -627,6 +638,7 @@ eventHandlers["QUEST_PROGRESS"] = function()
 	Storyline_NPCFrameObjectivesContent:SetHeight(contentHeight);
 end
 
+
 eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 	Storyline_NPCFrameRewards:Show();
 	setTooltipForSameFrame(Storyline_NPCFrameRewardsItem, "TOP", 0, 0, REWARDS, loc("SL_GET_REWARD"));
@@ -641,7 +653,7 @@ eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 	-- XP
 	local xp = GetRewardXP();
 	if xp > 0 then
-		bestIcon = "Interface\\ICONS\\xp_icon";
+		bestIcon = "Interface\\AddOns\\Storyline\\Artwork\\ICONS\\xp_icon";
 		tinsert(displayBuilder, {
 			text = xp .. " " .. XP,
 			icon = bestIcon,
@@ -747,7 +759,7 @@ eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 
 	resetGrid();
 	for index, buttonInfo in pairs(displayBuilder) do
-		local button = getQuestButton(Storyline_NPCFrameRewards.Content);
+		local button = getQuestButton(Storyline_NPCFrameRewardsContent);
 		placeOnGrid(button, Storyline_NPCFrameRewards.Content.RewardText1);
 		if buttonInfo.type == "currency" then
 			decorateCurrencyButton(button, buttonInfo.index, "reward", buttonInfo.icon, buttonInfo.text, buttonInfo.count);
@@ -829,7 +841,9 @@ eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 		Storyline_NPCFrameRewards.Content.RewardTextSpell:SetPoint("TOP", previousForChoice, "BOTTOM", 0, -5);
 		contentHeight = contentHeight + 18;
 		previousForChoice = Storyline_NPCFrameRewards.Content.RewardTextSpell;
-
+		
+		--CHANGES:Lanrutcon:No need to have this condition. Garrison was implemented in 6.0
+		--[[
 		if garrFollowerID then
 			local questItem = Storyline_NPCFrameRewards.Content.FollowerFrame;
 			questItem:SetPoint("TOP", previousForChoice, "BOTTOM", 0, -5);
@@ -845,14 +859,15 @@ eventHandlers["QUEST_COMPLETE"] = function(eventInfo)
 			GarrisonFollowerPortrait_Set(questItem.PortraitFrame.Portrait, followerInfo.portraitIconID);
 			contentHeight = contentHeight + 70;
 			previousForChoice = questItem;
-		else
+		]]--
+		--else
 			local questItem = Storyline_NPCFrameRewards.Content.SpellFrame;
 			questItem:Show();
 			questItem.Icon:SetTexture(texture);
 			questItem.Name:SetText(name);
 			contentHeight = contentHeight + 40;
 			previousForChoice = questItem;
-		end
+		--end
 	end
 
 	showQuestPortraitFrame();
@@ -866,7 +881,8 @@ local function handleEventSpecifics(event, texts, textIndex, eventInfo)
 	-- Options
 	for _, button in pairs(itemButtons) do
 		button:Hide();
-		button.Icon:SetVertexColor(1, 1, 1);
+		--button.Icon:SetVertexColor(1, 1, 1);
+		--button:SetVertexColor(1, 1, 1);
 	end
 	Storyline_NPCFrameGossipChoices:Hide();
 	Storyline_NPCFrameRewards:Hide();
@@ -902,6 +918,7 @@ local function handleEventSpecifics(event, texts, textIndex, eventInfo)
 	end
 end
 
+--CHANGES:Lanrutcon:changed some sequences' id from 0 to 3 (0 = idle, caused some flickering - 3 = stop)
 local function playText(textIndex, targetModel)
 	local animTab = targetModel.animTab;
 	wipe(animTab);
@@ -914,7 +931,7 @@ local function playText(textIndex, targetModel)
 	Storyline_NPCFrameChatText:SetTextColor(ChatTypeInfo["MONSTER_SAY"].r, ChatTypeInfo["MONSTER_SAY"].g, ChatTypeInfo["MONSTER_SAY"].b);
 
 	if text:byte() == 60 or not UnitExists("npc") or UnitIsUnit("player", "npc") then -- Emote if begins with <
-		local color = colorCodeFloat(ChatTypeInfo["MONSTER_EMOTE"].r, ChatTypeInfo["MONSTER_EMOTE"].g, ChatTypeInfo["MONSTER_EMOTE"].b);
+		local color = colorCodeFloat(0.6, 1, 0.7);
 		local finalText = text:gsub("<", color .. "<");
 		finalText = finalText:gsub(">", ">|r");
 		if not UnitExists("npc") or UnitIsUnit("player", "npc") then
@@ -926,12 +943,12 @@ local function playText(textIndex, targetModel)
 		Storyline_NPCFrameChatText:SetText(text);
 		text:gsub("[%.%?%!]+", function(finder)
 			animTab[#animTab + 1] = getAnimationByModel(targetModel.model, finder:sub(1, 1));
-			animTab[#animTab + 1] = 0;
+			animTab[#animTab + 1] = 3;
 		end);
 	end
 
 	if #animTab == 0 then
-		animTab[1] = 0;
+		animTab[1] = 3;
 	end
 
 	for _, sequence in pairs(animTab) do
@@ -1111,7 +1128,9 @@ function Storyline_API.initEventsStructure()
 	questButton:SetText(loc("SL_STORYLINE"));
 	questButton:SetPoint("TOP");
 	questButton:SetScript("OnClick", function()
+		QuestLogFrame:Show();	--make sure GetQuestLogQuestText() will return something.
 		local questDescription = GetQuestLogQuestText();
+		QuestLogFrame:Hide();
 		startDialog("none", questDescription, "REPLAY", EVENT_INFO["REPLAY"]);
 	end);
 

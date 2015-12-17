@@ -228,7 +228,6 @@
 						Storyline_NPCFrameDebugScaleSliderLow:SetText("Small");
 						Storyline_NPCFrameDebugScaleSliderHigh:SetText("Huge");
 						self:SetValueStep(1);
-						self:SetObeyStepOnDrag(true);
 					</OnLoad>
 				</Scripts>
 			</Slider>

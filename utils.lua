@@ -16,6 +16,45 @@
 --	limitations under the License.
 ----------------------------------------------------------------------------------
 
+--------------------
+-- CHANGES:Lanrutcon:Implementing C_Timer.After function
+--------------------
+
+C_Timer = {};
+
+local waitTable = {};
+local waitFrame = nil;
+
+C_Timer.After = function (delay, func, ...)
+  if(type(delay)~="number" or type(func)~="function") then
+    return false;
+  end
+  if(waitFrame == nil) then
+    waitFrame = CreateFrame("Frame","WaitFrame", UIParent);
+    waitFrame:SetScript("onUpdate",function (self,elapse)
+      local count = #waitTable;
+      local i = 1;
+      while(i<=count) do
+        local waitRecord = tremove(waitTable,i);
+        local d = tremove(waitRecord,1);
+        local f = tremove(waitRecord,1);
+        local p = tremove(waitRecord,1);
+        if(d>elapse) then
+          tinsert(waitTable,i,{d-elapse,f,p});
+          i = i + 1;
+        else
+          count = count - 1;
+          f(unpack(p));
+        end
+      end
+    end);
+  end
+  tinsert(waitTable,{delay,func,{...}});
+  return true;
+end
+
+
+
 -- Storyline API
 local getId = Storyline_API.lib.generateID;
 
@@ -80,8 +119,18 @@ function Storyline_API.getAnimationByModel(model, animationType)
 	return Storyline_DEFAULT_ANIM_MAPPING[animationType];
 end
 
+--CHANGES:Lanrutcon:SetAnimation was introduced in 5.0.4, implemented a similar function
 local function playAnim(model, sequence)
-	model:SetAnimation(sequence);
+	model.timer = 0;
+	model:SetScript("OnUpdate", function(self, elapsed)
+		--this stops onupdate script (if no animation is on queue, it will break after 4secs)
+		if(self.timer > 4000) then
+			self:SetScript("OnUpdate", nil);
+		else
+			model:SetSequenceTime(sequence, self.timer);
+			self.timer = (self.timer + (elapsed*1000))
+		end
+	end)
 	if model.debug then
 		model.debug:SetText(sequence);
 	end
@@ -104,6 +153,7 @@ end
 
 local DEFAULT_SEQUENCE_TIME = 4;
 
+
 local function getDuration(model, sequence)
 	sequence = tostring(sequence);
 	if Storyline_Data.debug.timing[model] and Storyline_Data.debug.timing[model][sequence] then
@@ -121,7 +171,7 @@ local function playAndStand(model, sequence, duration)
 	playAnim(model, sequence);
 	after(duration, function()
 		if model.token == token then
-			playAnim(model, 0);
+			playAnim(model, 3);
 		end
 	end);
 end

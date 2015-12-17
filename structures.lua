@@ -46,7 +46,7 @@ Storyline_ANIMATION_SEQUENCE_DURATION = {
 	[YES_ID] = 3.000,
 	[NOPE_ID] = 3.000,
 	[ACLAIM_ID] = 2.400,
-	["0"] = 1.500,
+	["3"] = 1.500,
 }
 
 Storyline_ANIMATION_SEQUENCE_DURATION_BY_MODEL = {

@@ -128,12 +128,19 @@ function Storyline_API.startDialog(targetType, fullText, event, eventInfo)
 	Storyline_NPCFrameModelsYou:SetLight(1, 0, 0, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 	Storyline_NPCFrameModelsYou:SetCamera(1);
 	Storyline_NPCFrameModelsYou:SetFacing(-.75);
+	Storyline_NPCFrameModelsYou:SetScale(1);
+	Storyline_NPCFrameModelsYou:SetPosition(0,0,0);
 
 	if UnitExists(targetType) and not UnitIsUnit("player", "npc") then
 		Storyline_NPCFrameModelsYou:SetUnit(targetType, false);
 	else
-		Storyline_NPCFrameModelsMe:SetAnimation(520);
-		Storyline_NPCFrameModelsYou:SetModel("world/expansion04/doodads/pandaren/scroll/pa_scroll_10.mo3");
+		--CHANGES:Lanrutcon:Commented "broken" stuff, added similar functions (No Pandarean models and animations)
+		--Storyline_NPCFrameModelsMe:SetAnimation(520);
+		--Storyline_NPCFrameModelsYou:SetModel("world/expansion04/doodads/pandaren/scroll/pa_scroll_10.mo3");
+		Storyline_API.playAnimationDelay(Storyline_NPCFrameModelsYou, 520, 100, 10);
+		Storyline_NPCFrameModelsYou:SetModel("World\\Expansion02\\doodads\\dalaran\\dalaran_bookcase_01.m2");
+		Storyline_NPCFrameModelsYou:SetScale(0.67);
+		Storyline_NPCFrameModelsYou:SetPosition(0,-0.1,1.5);
 	end
 	Storyline_NPCFrameModelsYou.model = Storyline_NPCFrameModelsYou:GetModel();
 

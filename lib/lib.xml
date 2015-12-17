@@ -80,7 +80,7 @@
 		<Size x="26" y="26"/>
 		<Layers>
 			<Layer level="OVERLAY">
-				<Texture name="$parentIcon" file="Interface\ICONS\INV_Misc_QuestionMark">
+				<Texture name="$parentIcon" file="Interface\AddOns\Storyline\Artwork\ICONS\INV_Misc_QuestionMark">
 					<Size x="26" y="26"/>
 					<Anchors>
 						<Anchor point="CENTER" x="0" y="0"/>
@@ -88,25 +88,25 @@
 				</Texture>
 			</Layer>
 		</Layers>
-		<NormalTexture file="Interface\AchievementFrame\UI-Achievement-IconFrame">
+		<NormalTexture file="Interface\AddOns\Storyline\Artwork\AchievementFrame\UI-Achievement-IconFrame">
 			<Size x="65" y="65"/>
 			<Anchors>
 				<Anchor point="CENTER" x="14" y="-14"/>
 			</Anchors>
 		</NormalTexture>
-		<PushedTexture file="Interface\Buttons\UI-EmptySlot">
+		<PushedTexture file="Interface\AddOns\Storyline\Artwork\Buttons\UI-EmptySlot">
 			<Size x="50" y="50"/>
 			<Anchors>
 				<Anchor point="CENTER" x="0" y="0"/>
 			</Anchors>
 		</PushedTexture>
-		<DisabledTexture file="Interface\Buttons\UI-EmptySlot-Disabled">
+		<DisabledTexture file="Interface\AddOns\Storyline\Artwork\Buttons\UI-EmptySlot-Disabled">
 			<Size x="47" y="47"/>
 			<Anchors>
 				<Anchor point="CENTER" x="0" y="0"/>
 			</Anchors>
 		</DisabledTexture>
-		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\UI-Quickslot-Depress"/>
+		<HighlightTexture alphaMode="ADD" file="Interface\AddOns\Storyline\Artwork\Buttons\UI-Quickslot-Depress"/>
 		<Scripts>
 			<OnEnter>
 				Storyline_RefreshTooltipForFrame(self);
@@ -162,21 +162,21 @@
 		<Size x="100" y="18"/>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture name="$parentLeft" file="Interface\Common\Common-Input-Border">
+				<Texture name="$parentLeft" file="Interface\AddOns\Storyline\Artwork\Common\Common-Input-Border">
 					<Size x="12" y="28"/>
 					<Anchors>
 						<Anchor point="TOPLEFT" x="-5" y="0"/>
 					</Anchors>
 					<TexCoords left="0" right="0.09375" top="0" bottom="1.0"/>
 				</Texture>
-				<Texture name="$parentRight" file="Interface\Common\Common-Input-Border">
+				<Texture name="$parentRight" file="Interface\AddOns\Storyline\Artwork\Common\Common-Input-Border">
 					<Size x="12" y="28"/>
 					<Anchors>
 						<Anchor point="TOPRIGHT" x="5" y="0"/>
 					</Anchors>
 					<TexCoords left="0.90625" right="1.0" top="0" bottom="1.0"/>
 				</Texture>
-				<Texture name="$parentCenter" file="Interface\Common\Common-Input-Border">
+				<Texture name="$parentCenter" file="Interface\AddOns\Storyline\Artwork\Common\Common-Input-Border">
 					<Size x="0" y="28"/>
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
@@ -220,68 +220,77 @@
 	</EditBox>
 
 	<!-- Tutorial style hovered frame -->
+	<!-- Changes:Lanrutcon:added files, inherits wasn't working properly, also added name fields-->
 	<Frame name="Storyline_HoveredFrame" inherits="GlowBoxTemplate" virtual="true">
 		<Size x="220" y="100"/>
 		<Layers>
 			<Layer level="ARTWORK">
-				<Texture parentKey="ArrowUP" inherits="HelpPlateArrowDOWN" hidden="true">
+				<Texture name="$parent.ArrowUP" parentKey="ArrowUP" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true">
 					<Size x="53" y="21"/>
 					<Anchors>
 						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3"/>
 					</Anchors>
+					<TexCoords left="0.78515625" right="0.99218750" bottom="0.54687500" top="0.58789063"/>
 				</Texture>
-				<Texture parentKey="ArrowDOWN" inherits="HelpPlateArrowUP" hidden="true">
+				<Texture name="$parent.ArrowDOWN" parentKey="ArrowDOWN" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true">
 					<Size x="53" y="21"/>
 					<Anchors>
 						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3"/>
 					</Anchors>
+					<TexCoords left="0.78515625" right="0.99218750" bottom="0.54687500" top="0.58789063"/>	
 				</Texture>
-				<Texture parentKey="ArrowRIGHT" inherits="HelpPlateArrowDOWN" hidden="true">
+				<Texture name="$parent.ArrowRIGHT" parentKey="ArrowRIGHT" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true">
 					<Size x="53" y="21"/>
 					<Anchors>
 						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0"/>
 					</Anchors>
+					<TexCoords left="0.78515625" right="0.99218750" bottom="0.54687500" top="0.58789063"/>
 				</Texture>
-				<Texture parentKey="ArrowLEFT" inherits="HelpPlateArrowDOWN" hidden="true">
+				<Texture name="$parent.ArrowLEFT" parentKey="ArrowLEFT" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true">
 					<Size x="53" y="21"/>
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0"/>
 					</Anchors>
+					<TexCoords left="0.78515625" right="0.99218750" bottom="0.54687500" top="0.58789063"/>
 				</Texture>
 			</Layer>
 			<Layer level="BORDER">
-				<Texture parentKey="ArrowGlowUP" inherits="HelpPlateArrow-GlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
-					<Size x="53" y="21"/>
+				<Texture name="$parent.ArrowGlowUP" parentKey="ArrowGlowUP" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="63" y="28"/>
 					<Anchors>
 						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3"/>
 					</Anchors>
+					<TexCoords left="0.40625000" right="0.66015625" bottom="0.77343750" top="0.82812500"/>
 				</Texture>
-				<Texture parentKey="ArrowGlowDOWN" inherits="HelpPlateArrow-GlowUP" hidden="true" alphaMode="ADD" alpha="0.5">
-					<Size x="53" y="21"/>
+				<Texture name="$parent.ArrowGlowDOWN" parentKey="ArrowGlowDOWN" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="63" y="28"/>		
 					<Anchors>
 						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3"/>
 					</Anchors>
+					<TexCoords left="0.40625000" right="0.66015625" bottom="0.77343750" top="0.82812500"/>	
 				</Texture>
-				<Texture parentKey="ArrowGlowRIGHT" inherits="HelpPlateArrow-GlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
-					<Size x="53" y="21"/>
+				<Texture name="$parent.ArrowGlowRIGHT" parentKey="ArrowGlowRIGHT" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="63" y="28"/>
 					<Anchors>
 						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0"/>
 					</Anchors>
+					<TexCoords left="0.40625000" right="0.66015625" bottom="0.77343750" top="0.82812500"/>
 				</Texture>
-				<Texture parentKey="ArrowGlowLEFT" inherits="HelpPlateArrow-GlowDOWN" hidden="true" alphaMode="ADD" alpha="0.5">
-					<Size x="53" y="21"/>
+				<Texture name="$parent.ArrowGlowLEFT" parentKey="ArrowGlowLEFT" file="Interface\TalentFrame\TalentFrame-Parts" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="63" y="28"/>
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0"/>
 					</Anchors>
+					<TexCoords left="0.40625000" right="0.66015625" bottom="0.77343750" top="0.82812500"/>
 				</Texture>
 			</Layer>
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				SetClampedTextureRotation(self.ArrowLEFT, 270);
-				SetClampedTextureRotation(self.ArrowRIGHT, 90);
-				SetClampedTextureRotation(self.ArrowGlowLEFT, 270);
-				SetClampedTextureRotation(self.ArrowGlowRIGHT, 90);
+				SetClampedTextureRotation(_G[self:GetName()..".ArrowLEFT"], 270);
+				SetClampedTextureRotation(_G[self:GetName()..".ArrowRIGHT"], 90);
+				SetClampedTextureRotation(_G[self:GetName()..".ArrowGlowLEFT"], 270);
+				SetClampedTextureRotation(_G[self:GetName()..".ArrowGlowRIGHT"], 90);
 			</OnLoad>
 		</Scripts>
 	</Frame>
@@ -291,20 +300,23 @@
 		<Size x="32" y="32"/>
 		<Scripts>
 			<OnLoad>
+				self.resizableFrame = _G["Storyline_NPCFrame"];
+				self.minWidth = 700;
+				self.minHeight = 450;
 				Storyline_API.lib.initResize(self);
 			</OnLoad>
 		</Scripts>
-		<NormalTexture file="Interface\Buttons\UI-Panel-SmallerButton-Up">
+		<NormalTexture file="Interface\AddOns\Storyline\Artwork\Buttons\UI-Panel-SmallerButton-Up">
 			<TexCoords left="1" right="0" top="0" bottom="1"/>
 		</NormalTexture>
-		<PushedTexture file="Interface\Buttons\UI-Panel-SmallerButton-Down">
+		<PushedTexture file="Interface\AddOns\Storyline\Artwork\Buttons\UI-Panel-SmallerButton-Down">
 			<TexCoords left="1" right="0" top="0" bottom="1"/>
 		</PushedTexture>
-		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+		<HighlightTexture file="Interface\AddOns\Storyline\Artwork\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
 	</Button>
 
 	<Frame name="Storyline_ResizeShadowFrame" parent="UIParent" frameStrata="FULLSCREEN" hidden="true" resizable="true">
-		<Backdrop edgeFile="Interface\GLUES\COMMON\TextPanel-Border" tile="true" bgFile="Interface\DialogFrame\UI-DialogBox-Background">
+		<Backdrop edgeFile="Interface\AddOns\Storyline\Artwork\Glues\Common\TextPanel-Border" tile="true" bgFile="Interface\AddOns\Storyline\Artwork\DialogFrame\UI-DialogBox-Background">
 			<EdgeSize><AbsValue val="32"/></EdgeSize><TileSize><AbsValue val="400"/></TileSize>
 			<BackgroundInsets><AbsInset left="5" right="5" top="5" bottom="5"/></BackgroundInsets>
 		</Backdrop>
