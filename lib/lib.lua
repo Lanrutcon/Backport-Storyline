@@ -280,7 +280,7 @@ function Storyline_API.lib.initResize(resizeButton)
 	end);
 	resizeButton:SetScript("OnDragStop", function(self)
 		if self.resizableFrame.isSizing then
-			print("resizing");
+			--print("resizing");
 			Storyline_ResizeShadowFrame:StopMovingOrSizing();
 			self.resizableFrame.isSizing = false;
 			local height, width = Storyline_ResizeShadowFrame:GetHeight(), Storyline_ResizeShadowFrame:GetWidth()

@@ -959,6 +959,7 @@ local function playText(textIndex, targetModel)
 	end
 
 	for _, sequence in pairs(animTab) do
+		--print(sequence, getDuration(targetModel.model, sequence))
 		delay = playAnimationDelay(targetModel, sequence, getDuration(targetModel.model, sequence), delay, textLineToken);
 	end
 
@@ -1140,6 +1141,7 @@ function Storyline_API.initEventsStructure()
 		QuestLogFrame:Hide();
 		startDialog("none", questDescription, "REPLAY", EVENT_INFO["REPLAY"]);
 	end);
+	--questButton:Hide();
 
 	-- UI
 	setTooltipAll(Storyline_NPCFrameChatPrevious, "BOTTOM", 0, 0, loc("SL_RESET"), loc("SL_RESET_TT"));

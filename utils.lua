@@ -122,6 +122,9 @@ end
 --CHANGES:Lanrutcon:SetAnimation was introduced in 5.0.4, implemented a similar function
 local function playAnim(model, sequence)
 	model.timer = 0;
+	if sequence == 3 then
+		model.timer = 5000;
+	end
 	model:SetScript("OnUpdate", function(self, elapsed)
 		--this stops onupdate script (if no animation is on queue, it will break after 4secs)
 		if(self.timer > 4000) then

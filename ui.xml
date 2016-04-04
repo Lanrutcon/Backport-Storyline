@@ -186,7 +186,7 @@
 		</Layers>
 		<Scripts>
 			<OnEnter>
-				print("XML UI: Storyline Multichoice Button > Fontstring: Text")
+				--print("XML UI: Storyline Multichoice Button > Fontstring: Text")
 				self.Text:SetTextColor(0.95, 0.95, 0.95);
 			</OnEnter>
 			<OnLeave>
