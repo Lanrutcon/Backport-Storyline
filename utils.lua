@@ -124,6 +124,9 @@ local function playAnim(model, sequence)
 	model.timer = 0;
 	if sequence == 3 then
 		model.timer = 5000;
+	--blood elf females have multiple "talk" emotes and it causes flickering, changing to emote 64/65
+	elseif(model:GetModel() == "character\\bloodelf\\female\\bloodelffemale.m2" and sequence == 60) then
+		sequence = math.random(64,65);
 	end
 	model:SetScript("OnUpdate", function(self, elapsed)
 		--this stops onupdate script (if no animation is on queue, it will break after 4secs)
