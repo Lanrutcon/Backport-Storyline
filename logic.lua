@@ -78,6 +78,7 @@ local function showOriginalFrames()
 end
 
 function Storyline_API.startDialog(targetType, fullText, event, eventInfo)
+	
 	Storyline_NPCFrameDebugText:SetText(event);
 	if Storyline_Data.config.hideOriginalFrames then
 		hideOriginalFrames();
@@ -131,7 +132,8 @@ function Storyline_API.startDialog(targetType, fullText, event, eventInfo)
 	Storyline_NPCFrameModelsYou:SetScale(1);
 	Storyline_NPCFrameModelsYou:SetPosition(0,0,0);
 
-	if UnitExists(targetType) and not UnitIsUnit("player", "npc") then
+	
+	if UnitExists(targetType) and not UnitIsUnit("player", targetType) then --"npc") then
 		Storyline_NPCFrameModelsYou:SetUnit(targetType, false);
 	else
 		--CHANGES:Lanrutcon:Commented "broken" stuff, added similar functions (No Pandarean models and animations)

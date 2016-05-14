@@ -223,17 +223,21 @@ local function showQuestPortraitFrame()
 	end
 end
 
+--CHANGES:Lanrutcon: Sometimes, when the quest is auto-accept it doesn't hide the frame
 local function acceptQuest()
 	if QuestFlagsPVP() then
 		QuestFrame.dialog = StaticPopup_Show("CONFIRM_ACCEPT_PVP_QUEST");
 	else
 		if QuestFrame.autoQuest then
 			--AcknowledgeAutoAcceptQuest();		--MoP function that notices user that is a auto-aceept quest
+			QuestFrame:Hide();
 		else
 			AcceptQuest();
 		end
 	end
 end
+
+
 
 --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 -- Grid system
@@ -937,11 +941,11 @@ local function playText(textIndex, targetModel)
 
 	Storyline_NPCFrameChatText:SetTextColor(ChatTypeInfo["MONSTER_SAY"].r, ChatTypeInfo["MONSTER_SAY"].g, ChatTypeInfo["MONSTER_SAY"].b);
 
-	if text:byte() == 60 or not UnitExists("npc") or UnitIsUnit("player", "npc") then -- Emote if begins with <
+	if text:byte() == 60 then -- Emote if begins with <
 		local color = colorCodeFloat(0.6, 1, 0.7);
 		local finalText = text:gsub("<", color .. "<");
 		finalText = finalText:gsub(">", ">|r");
-		if not UnitExists("npc") or UnitIsUnit("player", "npc") then
+		if not UnitExists("target") or UnitIsUnit("player", "target") then
 			Storyline_NPCFrameChatText:SetText(color .. finalText);
 		else
 			Storyline_NPCFrameChatText:SetText(finalText);
@@ -959,7 +963,6 @@ local function playText(textIndex, targetModel)
 	end
 
 	for _, sequence in pairs(animTab) do
-		--print(sequence, getDuration(targetModel.model, sequence))
 		delay = playAnimationDelay(targetModel, sequence, getDuration(targetModel.model, sequence), delay, textLineToken);
 	end
 
@@ -1122,11 +1125,11 @@ function Storyline_API.initEventsStructure()
 				end
 				after(GOSSIP_DELAY, function()
 					if GossipFrame:IsVisible() then
-						startDialog("npc", info.text(), event, info);
+						startDialog("target", info.text(), event, info);
 					end
 				end);
 			else
-				startDialog("npc", info.text(), event, info);
+				startDialog("target", info.text(), event, info);
 			end
 		end);
 	end
@@ -1141,7 +1144,7 @@ function Storyline_API.initEventsStructure()
 		QuestLogFrame:Hide();
 		startDialog("none", questDescription, "REPLAY", EVENT_INFO["REPLAY"]);
 	end);
-	--questButton:Hide();
+
 
 	-- UI
 	setTooltipAll(Storyline_NPCFrameChatPrevious, "BOTTOM", 0, 0, loc("SL_RESET"), loc("SL_RESET_TT"));
